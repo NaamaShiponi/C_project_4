@@ -1,7 +1,7 @@
 CC = gcc
 AR = ar
 CFLAGS = -g -Wall
-OBJECTS_MAIN = main.c
+OBJECTS_MAIN = main.c graph.h
 OBJECTS_NODES = nodes.c nodes.h
 OBJECTS_EDGES = edges.c edges.h
 OBJECTS_ALGO = algo.c algo.h
