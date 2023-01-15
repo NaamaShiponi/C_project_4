@@ -1,3 +1,4 @@
 *.o
 *.a
 graph
+.vscode
