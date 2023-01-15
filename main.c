@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "graph.h"
 
 int main()
@@ -44,7 +45,7 @@ char getParmsForCreatGraph(pnode *head)
     int munOfNode = 0;
     scanf("%d", &munOfNode);
     // creat nodes
-    build_Nodes_graph_cmd(head);
+    build_Nodes_graph_cmd(head,munOfNode);
     char c;
     scanf("%c%c", &c, &c);
 
@@ -57,19 +58,38 @@ char getParmsForCreatGraph(pnode *head)
         {
             scanf("%d", &weight);
             // creat age
-            build_graph_cmd(head);
+            // build_graph_cmd(head);
         }
         scanf("%c", &c);
     }
     return c;
 }
 
-void build_Nodes_graph_cmd(pnode *head)
-{
+pnode newNode(int node_num){
+    pnode p=(pnode)malloc(sizeof(node)); 
+    p->node_num=node_num;
+    p->edges=NULL;
+    p->next=NULL;
+    return p;
+}
 
+
+void build_Nodes_graph_cmd(pnode *head,int munOfNode)
+{
+    head = newNode(0);
+
+    // for (size_t i = 0; i < munOfNode; i++)
+    // {
+        
+    //     *head->n
+    //     // ->next = newNode(i);
+
+    // }
+    
+    // printf("%p",head);
 
 }
-void build_graph_cmd(pnode *head)
-{
+// void build_graph_cmd(pnode *head)
+// {
 
-}
+// }
