@@ -6,7 +6,7 @@ int main()
 {
     char c;
     scanf("%c", &c);
-    while (1)
+    while (c!=EOF)
     {
         pnode *head;
         switch(c)
