@@ -16,16 +16,28 @@ typedef struct GRAPH_NODE_ {
     struct GRAPH_NODE_ *next;
 } node, *pnode;
 
-void build_Nodes_graph_cmd(pnode *head,int munOfNode);
-void build_graph_cmd(pnode *head);
-void insert_node_cmd(pnode *head);
-void delete_node_cmd(pnode *head);
+
 void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head);
 void shortsPath_cmd(pnode head);
 void TSP_cmd(pnode head);
 
+
 char getParmsForCreatGraph();
+void build_nodes_graph_cmd(pnode *head,int numOfNode);
+pnode newNode();
+void printNodes();
+void newEdge(pnode *head,int parentNode,int targetNode,int weight);
+void print_graph();
+pnode findNode();
+void  deleteEdgeFromNode(pnode oldNode);
+void deleteEdgeToNode();
+void insert_node_cmd();
+void delete_node_cmd();
+void deleteGraph_cmd(pnode* head);
+
+
+
 char getParmsForNewNode();
 char getParmsForDeleteNode();
 char getParmsForShortRoute();
