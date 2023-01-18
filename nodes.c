@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph.h"
+#include <limits.h>
 
 void delete_node_cmd(pnode *head, int numOfNode)
 {
@@ -86,6 +87,7 @@ pnode newNode(int node_num)
     p->node_num = node_num;
     p->edges = NULL;
     p->next = NULL;
+    p->bellmanFord = INT_MAX;
     return p;
 }
 

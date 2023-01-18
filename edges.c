@@ -30,12 +30,10 @@ void deleteEdgeFromNode(pnode oldNode)
 {
     pedge pEdge = oldNode->edges;
     pedge ptemp;
-    printf("deleteEdgeFromNode \n");
     while (pEdge != NULL)
     {
         ptemp = pEdge;
         pEdge = pEdge->next;
-        printf("delete:(%d,--- %d ---> %d)\n", oldNode->node_num, ptemp->weight, ptemp->endpoint->node_num);
         free(ptemp);
     }
     oldNode->edges = NULL;

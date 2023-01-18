@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
+#include <limits.h>
 
 int main()
 {
@@ -12,17 +13,10 @@ int main()
         switch (c)
         {
         case 'A':
-            if (head == NULL)
-            {
-                c = getParmsForCreatGraph(&head);
-            }
-            else
-            {
+            printf("in A\n");
+            if (head != NULL)
                 deleteGraph_cmd(&head);
-                c = getParmsForCreatGraph(&head);
-            }
-            // print_graph(&head);
-
+            c = getParmsForCreatGraph(&head);
             break;
 
         case 'B':
@@ -36,11 +30,13 @@ int main()
             break;
 
         case 'S':
-            // c=getParmsForShortRoute();
+            printf("in S\n");
+            c = getParmsForShortRoute(&head);
             break;
 
         case 'T':
-            // c=getParmsForShortRouteWithDefinedPoints();
+            printf("in T\n");
+            c = getParmsForShortRouteWithDefinedPoints(&head);
             break;
 
             // operator doesn't match any case constant +, -, *, /
@@ -48,7 +44,93 @@ int main()
             //     printf("Error! operator is not correct");
         }
     }
+    deleteGraph_cmd(&head);
 }
+
+void TravellingSalesmanProblem(pnode *head,int **stations){
+
+}
+
+char getParmsForShortRouteWithDefinedPoints(pnode *head)
+{
+    char c;
+    int numOfStations;
+    scanf("%d", &numOfStations);
+    int *stations = (int *)malloc(numOfStations * sizeof(int));
+    for (int i = 0; i < numOfStations; i++)
+    {
+        scanf("%d", &stations[i]);
+    }
+
+    // TravellingSalesmanProblem(head,&stations);
+    free(stations);
+    scanf("%c", &c);
+    return c;
+}
+
+void BellmanFord(pnode *head, int parentNode)
+{
+    pnode p = findNode(head, parentNode);
+    p->bellmanFord = 0;
+    pnode current = *head;
+    int weightBF = 0;
+    int countNodes = 0, i = 1;
+    while (current != NULL)
+    {
+        countNodes++;
+        current = current->next;
+    }
+    while (i < countNodes)
+    {
+        current = *head;
+
+        while (current != NULL)
+        {
+
+            weightBF = current->bellmanFord;
+            if (weightBF < INT_MAX)
+            {
+                pedge current_edge = current->edges;
+                while (current_edge != NULL)
+                {
+
+                    if (((weightBF + current_edge->weight) < current_edge->endpoint->bellmanFord))
+                    {
+                        current_edge->endpoint->bellmanFord = weightBF + current_edge->weight;
+                    }
+                    current_edge = current_edge->next;
+                }
+            }
+            current = current->next;
+        }
+        i++;
+    }
+}
+
+char getParmsForShortRoute(pnode *head)
+{
+
+    int parentNode, targetNode;
+    char c;
+    scanf("%d", &parentNode);
+
+    scanf("%d", &targetNode);
+
+    BellmanFord(head, parentNode);
+    pnode p = findNode(head, targetNode);
+    if (p->bellmanFord == INT_MAX)
+    {
+        printf("Dijsktra shortest path: -1\n");
+    }
+    else
+    {
+        printf("Dijsktra shortest path: %d\n", p->bellmanFord);
+    }
+
+    scanf("%c", &c);
+    return c;
+}
+
 void deleteGraph_cmd(pnode *head)
 {
     pnode p = *head;
@@ -59,13 +141,11 @@ void deleteGraph_cmd(pnode *head)
         while (p != NULL)
         {
             delete_node_cmd(head, p->node_num);
-            p=p->next;
+            p = p->next;
         }
         p = *head;
         free(p);
         *head = NULL;
-        
-
     }
 }
 
@@ -90,12 +170,13 @@ char getParmsForNewNode(pnode *head)
 
     // get number of parent node
     scanf("%d", &parentNode);
+
+    oldNode = findNode(head, parentNode);
+
     /*checke if this node exist
     IF YES delete all edge fo parent
     IF NO create a new node
     */
-    oldNode = findNode(head, parentNode);
-
     if (oldNode == NULL)
     {
         printf("create a new node\n");
@@ -141,7 +222,6 @@ char getParmsForCreatGraph(pnode *head)
     // loop to creat graph
     while (c == 'n')
     {
-
         // get number of parent node
         scanf("%d", &parentNode);
 

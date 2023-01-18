@@ -14,6 +14,7 @@ typedef struct GRAPH_NODE_ {
     int node_num;
     pedge edges;
     struct GRAPH_NODE_ *next;
+    int bellmanFord;
 } node, *pnode;
 
 
@@ -35,7 +36,8 @@ void deleteEdgeToNode();
 void insert_node_cmd();
 void delete_node_cmd();
 void deleteGraph_cmd(pnode* head);
-
+void BellmanFord();
+void TravellingSalesmanProblem();
 
 
 char getParmsForNewNode();
