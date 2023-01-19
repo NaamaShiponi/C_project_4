@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "graph.h"
 #include <limits.h>
-
+int miniforTSP = INT_MAX;
 int main()
 {
     char c;
@@ -12,14 +12,12 @@ int main()
         switch (c)
         {
         case 'A':
-            printf("in A\n");
             if (head != NULL)
                 deleteGraph_cmd(&head);
             getParamsForCreatGraph(&head);
             break;
 
         case 'B':
-            printf("in B\n");
             getParamsForNewNode(&head);
             break;
 
@@ -29,58 +27,75 @@ int main()
             break;
 
         case 'S':
-            printf("in S\n");
             getParamsForShortRoute(&head);
             break;
 
         case 'T':
-            printf("in T\n");
-            getParamsForShortRouteWithDefinedPoints(head);
+            getParamsForShortRouteWithDefinedPoints(&head);
             break;
         }
     }
     deleteGraph_cmd(&head);
 }
 
-void TravellingSalesmanProblem(pnode head, int *stations, int numOfStations)
+void TravellingSalesmanProblem(pnode *head, int *stations, int numOfStations)
 {
-    int min = INT_MAX, temp;
-    for (int j = 1; j <= numOfStations; j++)
+    int temppath = 0;
+    for (int i = 0; i < numOfStations - 1; i++)
     {
-        for (int i = 0; i < numOfStations - 1; i++)
+        BellmanFord(head, stations[i]);
+        pnode bf = findNode(head, stations[i + 1]);
+        if (bf->bellmanFord == INT_MAX || bf->bellmanFord < 0)
         {
-            temp = stations[i];
-            stations[i] = stations[i + 1];
-            stations[i + 1] = temp;
-            int temppath = 0;
-            for (i = 0; i < numOfStations - 1; i++)
-            {
-                BellmanFord(&head, stations[i]);
-                pnode bf = findNode(&head, stations[i + 1]);
-                if (bf->bellmanFord < 0)
-                {
-                    temppath = INT_MAX;
-                    break;
-                }
-                temppath += bf->bellmanFord;
-            }
-            if (temppath < min)
-            {
-                min = temppath;
-            }
+            temppath = INT_MAX;
+            break;
         }
+        temppath += bf->bellmanFord;
     }
-    if (min < INT_MAX && min > 0)
+    if (miniforTSP > temppath)
     {
-        printf("TSP shortest path: %d \n", min);
+        miniforTSP = temppath;
     }
-    else
+
+
+}
+
+void allArrPermutations(pnode *head, int *arr, int len, int index)
+{
+    int *tempArr = (int *)malloc(len * sizeof(int));
+
+    if (index == len)
     {
-        printf("TSP shortest path: -1\n");
+        for (int i = 0; i < len; i++)
+        {
+            tempArr[i] = arr[i];
+        }
+        TravellingSalesmanProblem(head, tempArr, len);
+        free(tempArr);
+        return;
+
+        // for (int i = 0; i < len; i++)
+        // {
+        //     printf("%d ", tempArr[i]);
+        // }
+        // printf("\n");
+    }
+
+    for (int i = index; i < len; i++)
+    {
+        int temp = arr[index];
+        arr[index] = arr[i];
+        arr[i] = temp;
+
+        allArrPermutations(head, arr, len, index + 1);
+
+        temp = arr[index];
+        arr[index] = arr[i];
+        arr[i] = temp;
     }
 }
 
-void getParamsForShortRouteWithDefinedPoints(pnode head)
+void getParamsForShortRouteWithDefinedPoints(pnode *head)
 {
     int numOfStations;
     scanf("%d", &numOfStations);
@@ -89,11 +104,16 @@ void getParamsForShortRouteWithDefinedPoints(pnode head)
     {
         scanf("%d", &stations[i]);
     }
+    allArrPermutations(head, stations, numOfStations, 0);
 
-    TravellingSalesmanProblem(head, stations, numOfStations);
+    if(miniforTSP==INT_MAX){
+        printf("TSP shortest path: -1 \n");
+    }else{
+        printf("TSP shortest path: %d \n", miniforTSP);
+    }
+    miniforTSP = INT_MAX;
 
     free(stations);
-
 }
 
 void BellmanFord(pnode *head, int parentNode)
@@ -154,13 +174,12 @@ void getParamsForShortRoute(pnode *head)
     pnode p = findNode(head, targetNode);
     if (p->bellmanFord == INT_MAX)
     {
-        printf("Dijsktra shortest path: -1\n");
+        printf("Dijsktra shortest path: -1 \n");
     }
     else
     {
-        printf("Dijsktra shortest path: %d\n", p->bellmanFord);
+        printf("Dijsktra shortest path: %d \n", p->bellmanFord);
     }
-
 }
 
 void deleteGraph_cmd(pnode *head)
@@ -187,8 +206,7 @@ void getParamsForDeleteNode(pnode *head)
     scanf("%d", &numOfNode);
 
     delete_node_cmd(head, numOfNode);
-    print_graph(head);
-
+    // print_graph(head);
 }
 
 void getParamsForNewNode(pnode *head)
@@ -207,7 +225,6 @@ void getParamsForNewNode(pnode *head)
     */
     if (oldNode == NULL)
     {
-        printf("create a new node\n");
         insert_node_cmd(head, parentNode);
     }
     else
@@ -225,7 +242,7 @@ void getParamsForNewNode(pnode *head)
         // creat edge
         newEdge(head, parentNode, targetNode, weight);
     }
-    print_graph(head);
+    // print_graph(head);
 }
 
 void getParamsForCreatGraph(pnode *head)
@@ -244,7 +261,7 @@ void getParamsForCreatGraph(pnode *head)
     scanf("%c%c", &c, &c);
 
     // loop to creat graph
-    for (size_t i = 0; i < munOfNode-1 ; i++)
+    for (size_t i = 0; i < munOfNode - 1; i++)
     // while (c == 'n')
     {
         // get number of parent node
@@ -264,7 +281,7 @@ void getParamsForCreatGraph(pnode *head)
         // get n/A/B/D/S/T
         scanf("%c", &c);
     }
-    print_graph(head);
+    // print_graph(head);
 }
 
 void print_graph(pnode *head)

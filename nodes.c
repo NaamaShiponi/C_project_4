@@ -59,16 +59,7 @@ void insert_node_cmd(pnode *head, int numNode)
     }
     *head = newNod;
 
-    // add in the end node list
-    //  while (p->next != NULL)
-    //  {
-    //      // printf("node- %d \n", p->node_num);
 
-    //     p = p->next;
-    // }
-    // p->next=newNod;
-
-    // printNodes(head);
 }
 
 void printNodes(pnode *head)
@@ -93,8 +84,7 @@ pnode newNode(int node_num)
 
 pnode findNode(pnode *head, int node_num)
 {
-    // printf("\nin findNode \n");
-    // printf(" node_num:%d \n",node_num);
+
     pnode p = *head;
     while (p != NULL)
     {
@@ -105,6 +95,5 @@ pnode findNode(pnode *head, int node_num)
         p = p->next;
     }
 
-    printf("\nERROR !! -I did not find the NODE in findNode\n");
     return NULL;
 }

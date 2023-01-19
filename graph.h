@@ -38,7 +38,7 @@ void delete_node_cmd();
 void deleteGraph_cmd(pnode* head);
 void BellmanFord();
 void TravellingSalesmanProblem();
-
+void allArrPermutations();
 
 void getParamsForNewNode();
 void getParamsForDeleteNode();
