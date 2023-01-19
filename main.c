@@ -6,9 +6,8 @@
 int main()
 {
     char c;
-    scanf("%c", &c);
     pnode head = NULL;
-    while (c != EOF && c != 'E')
+    while (scanf(" %c", &c) == 1)
     {
         switch (c)
         {
@@ -16,32 +15,28 @@ int main()
             printf("in A\n");
             if (head != NULL)
                 deleteGraph_cmd(&head);
-            c = getParmsForCreatGraph(&head);
+            getParamsForCreatGraph(&head);
             break;
 
         case 'B':
             printf("in B\n");
-            c = getParmsForNewNode(&head);
+            getParamsForNewNode(&head);
             break;
 
         case 'D':
             printf("in D\n");
-            c = getParmsForDeleteNode(&head);
+            getParamsForDeleteNode(&head);
             break;
 
         case 'S':
             printf("in S\n");
-            c = getParmsForShortRoute(&head);
+            getParamsForShortRoute(&head);
             break;
 
         case 'T':
             printf("in T\n");
-            c = getParmsForShortRouteWithDefinedPoints(head);
+            getParamsForShortRouteWithDefinedPoints(head);
             break;
-
-            // operator doesn't match any case constant +, -, *, /
-            // default:
-            //     printf("Error! operator is not correct");
         }
     }
     deleteGraph_cmd(&head);
@@ -85,9 +80,8 @@ void TravellingSalesmanProblem(pnode head, int *stations, int numOfStations)
     }
 }
 
-char getParmsForShortRouteWithDefinedPoints(pnode head)
+void getParamsForShortRouteWithDefinedPoints(pnode head)
 {
-    char c;
     int numOfStations;
     scanf("%d", &numOfStations);
     int *stations = (int *)malloc(numOfStations * sizeof(int));
@@ -99,8 +93,7 @@ char getParmsForShortRouteWithDefinedPoints(pnode head)
     TravellingSalesmanProblem(head, stations, numOfStations);
 
     free(stations);
-    scanf("%c", &c);
-    return c;
+
 }
 
 void BellmanFord(pnode *head, int parentNode)
@@ -149,11 +142,10 @@ void BellmanFord(pnode *head, int parentNode)
     }
 }
 
-char getParmsForShortRoute(pnode *head)
+void getParamsForShortRoute(pnode *head)
 {
 
     int parentNode, targetNode;
-    char c;
     scanf("%d", &parentNode);
 
     scanf("%d", &targetNode);
@@ -169,8 +161,6 @@ char getParmsForShortRoute(pnode *head)
         printf("Dijsktra shortest path: %d\n", p->bellmanFord);
     }
 
-    scanf("%c", &c);
-    return c;
 }
 
 void deleteGraph_cmd(pnode *head)
@@ -191,22 +181,18 @@ void deleteGraph_cmd(pnode *head)
     }
 }
 
-char getParmsForDeleteNode(pnode *head)
+void getParamsForDeleteNode(pnode *head)
 {
     int numOfNode;
-    char c;
     scanf("%d", &numOfNode);
 
     delete_node_cmd(head, numOfNode);
     print_graph(head);
 
-    scanf("%c", &c);
-    return c;
 }
 
-char getParmsForNewNode(pnode *head)
+void getParamsForNewNode(pnode *head)
 {
-    char c;
     int parentNode, targetNode, weight;
     pnode oldNode;
 
@@ -240,13 +226,9 @@ char getParmsForNewNode(pnode *head)
         newEdge(head, parentNode, targetNode, weight);
     }
     print_graph(head);
-
-    // get n/A/B/D/S/T
-    scanf("%c", &c);
-    return c;
 }
 
-char getParmsForCreatGraph(pnode *head)
+void getParamsForCreatGraph(pnode *head)
 {
     char c;
     int munOfNode = 0;
@@ -262,7 +244,8 @@ char getParmsForCreatGraph(pnode *head)
     scanf("%c%c", &c, &c);
 
     // loop to creat graph
-    while (c == 'n')
+    for (size_t i = 0; i < munOfNode-1 ; i++)
+    // while (c == 'n')
     {
         // get number of parent node
         scanf("%d", &parentNode);
@@ -282,7 +265,6 @@ char getParmsForCreatGraph(pnode *head)
         scanf("%c", &c);
     }
     print_graph(head);
-    return c;
 }
 
 void print_graph(pnode *head)

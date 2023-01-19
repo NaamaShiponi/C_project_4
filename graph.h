@@ -24,7 +24,7 @@ void shortsPath_cmd(pnode head);
 void TSP_cmd(pnode head);
 
 
-char getParmsForCreatGraph();
+void getParamsForCreatGraph();
 void build_nodes_graph_cmd(pnode *head,int numOfNode);
 pnode newNode();
 void printNodes();
@@ -40,9 +40,9 @@ void BellmanFord();
 void TravellingSalesmanProblem();
 
 
-char getParmsForNewNode();
-char getParmsForDeleteNode();
-char getParmsForShortRoute();
-char getParmsForShortRouteWithDefinedPoints();
+void getParamsForNewNode();
+void getParamsForDeleteNode();
+void getParamsForShortRoute();
+void getParamsForShortRouteWithDefinedPoints();
 
 #endif
