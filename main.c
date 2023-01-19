@@ -43,6 +43,7 @@ void TravellingSalesmanProblem(pnode *head, int *stations, int numOfStations)
     for (int i = 0; i < numOfStations - 1; i++)
     {
         BellmanFord(head, stations[i]);
+        // printf("stations[i + 1] %d", stations[i + 1]);
         pnode bf = findNode(head, stations[i + 1]);
         if (bf->bellmanFord == INT_MAX || bf->bellmanFord < 0)
         {
@@ -55,8 +56,6 @@ void TravellingSalesmanProblem(pnode *head, int *stations, int numOfStations)
     {
         miniforTSP = temppath;
     }
-
-
 }
 
 void allArrPermutations(pnode *head, int *arr, int len, int index)
@@ -92,6 +91,7 @@ void allArrPermutations(pnode *head, int *arr, int len, int index)
         arr[index] = arr[i];
         arr[i] = temp;
     }
+    free(tempArr);
 }
 
 void getParamsForShortRouteWithDefinedPoints(pnode *head)
@@ -103,11 +103,15 @@ void getParamsForShortRouteWithDefinedPoints(pnode *head)
     {
         scanf("%d", &stations[i]);
     }
+
     allArrPermutations(head, stations, numOfStations, 0);
 
-    if(miniforTSP==INT_MAX){
+    if (miniforTSP == INT_MAX)
+    {
         printf("TSP shortest path: -1 \n");
-    }else{
+    }
+    else
+    {
         printf("TSP shortest path: %d \n", miniforTSP);
     }
     miniforTSP = INT_MAX;
@@ -183,28 +187,54 @@ void getParamsForShortRoute(pnode *head)
 
 void deleteGraph_cmd(pnode *head)
 {
-    pnode p = *head;
-
-    if (p != NULL)
+    if (*head == NULL)
+        return;
+    if ((*head)->next == NULL)
     {
-        p = p->next;
-        while (p != NULL)
-        {
-            delete_node_cmd(head, p->node_num);
-            p = p->next;
-        }
-        p = *head;
-        free(p);
+        free(*head);
         *head = NULL;
+        return;
     }
+    pnode p = *head;
+    pnode temp;
+    p = p->next;
+    while (p != NULL)
+    {
+        temp = p;
+        p = p->next;
+        delete_node_cmd(head, temp->node_num);
+    }
+    p = *head;
+    free(p);
+    *head = NULL;
 }
+// {
+//     pnode p = *head;
+//         p = p->next;
+//         while (p != NULL)
+//         {
+//             delete_node_cmd(head, p->node_num);
+//             p = p->next;
+//         }
+//         p = *head;
+//         free(p);
+//         *head = NULL;
+// }
 
 void getParamsForDeleteNode(pnode *head)
 {
     int numOfNode;
     scanf("%d", &numOfNode);
-
-    delete_node_cmd(head, numOfNode);
+    pnode p = *head;
+    if (p->node_num == numOfNode)
+    {
+        *head = p->next;
+        free(p);
+    }
+    else
+    {
+        delete_node_cmd(head, numOfNode);
+    }
     // print_graph(head);
 }
 

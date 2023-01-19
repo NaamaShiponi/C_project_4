@@ -83,7 +83,7 @@ pnode newNode(int node_num)
 
 pnode findNode(pnode *head, int node_num)
 {
-
+// printf("node_num %d\n",node_num);
     pnode p = *head;
     while (p != NULL)
     {
