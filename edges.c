@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "edges.h"
 #include "graph.h"
 
 void newEdge(pnode *head, int parentNode, int targetNode, int weight)

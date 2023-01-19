@@ -1,6 +1,7 @@
 #ifndef GRAPH_
 #define GRAPH_
 
+
 typedef struct GRAPH_NODE_ *pnode;;
 
 typedef struct edge_ {
@@ -18,12 +19,7 @@ typedef struct GRAPH_NODE_ {
 } node, *pnode;
 
 
-void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head);
-void shortsPath_cmd(pnode head);
-void TSP_cmd(pnode head);
-
-
 void getParamsForCreatGraph();
 void build_nodes_graph_cmd(pnode *head,int numOfNode);
 pnode newNode();
@@ -35,11 +31,9 @@ void  deleteEdgeFromNode(pnode oldNode);
 void deleteEdgeToNode();
 void insert_node_cmd();
 void delete_node_cmd();
-void deleteGraph_cmd(pnode* head);
 void BellmanFord();
 void TravellingSalesmanProblem();
 void allArrPermutations();
-
 void getParamsForNewNode();
 void getParamsForDeleteNode();
 void getParamsForShortRoute();
