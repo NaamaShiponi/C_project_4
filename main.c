@@ -36,7 +36,7 @@ int main()
 
         case 'T':
             printf("in T\n");
-            c = getParmsForShortRouteWithDefinedPoints(&head);
+            c = getParmsForShortRouteWithDefinedPoints(head);
             break;
 
             // operator doesn't match any case constant +, -, *, /
@@ -47,11 +47,45 @@ int main()
     deleteGraph_cmd(&head);
 }
 
-void TravellingSalesmanProblem(pnode *head,int **stations){
-
+void TravellingSalesmanProblem(pnode head, int *stations, int numOfStations)
+{
+    int min = INT_MAX, temp;
+    for (int j = 1; j <= numOfStations; j++)
+    {
+        for (int i = 0; i < numOfStations - 1; i++)
+        {
+            temp = stations[i];
+            stations[i] = stations[i + 1];
+            stations[i + 1] = temp;
+            int temppath = 0;
+            for (i = 0; i < numOfStations - 1; i++)
+            {
+                BellmanFord(&head, stations[i]);
+                pnode bf = findNode(&head, stations[i + 1]);
+                if (bf->bellmanFord < 0)
+                {
+                    temppath = INT_MAX;
+                    break;
+                }
+                temppath += bf->bellmanFord;
+            }
+            if (temppath < min)
+            {
+                min = temppath;
+            }
+        }
+    }
+    if (min < INT_MAX && min > 0)
+    {
+        printf("TSP shortest path: %d \n", min);
+    }
+    else
+    {
+        printf("TSP shortest path: -1\n");
+    }
 }
 
-char getParmsForShortRouteWithDefinedPoints(pnode *head)
+char getParmsForShortRouteWithDefinedPoints(pnode head)
 {
     char c;
     int numOfStations;
@@ -62,7 +96,8 @@ char getParmsForShortRouteWithDefinedPoints(pnode *head)
         scanf("%d", &stations[i]);
     }
 
-    // TravellingSalesmanProblem(head,&stations);
+    TravellingSalesmanProblem(head, stations, numOfStations);
+
     free(stations);
     scanf("%c", &c);
     return c;
@@ -71,10 +106,17 @@ char getParmsForShortRouteWithDefinedPoints(pnode *head)
 void BellmanFord(pnode *head, int parentNode)
 {
     pnode p = findNode(head, parentNode);
-    p->bellmanFord = 0;
     pnode current = *head;
     int weightBF = 0;
     int countNodes = 0, i = 1;
+    while (current != NULL)
+    {
+        current->bellmanFord = INT_MAX;
+        current = current->next;
+    }
+    current = *head;
+    p->bellmanFord = 0;
+
     while (current != NULL)
     {
         countNodes++;
