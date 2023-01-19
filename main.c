@@ -22,7 +22,6 @@ int main()
             break;
 
         case 'D':
-            printf("in D\n");
             getParamsForDeleteNode(&head);
             break;
 
@@ -229,7 +228,6 @@ void getParamsForNewNode(pnode *head)
     }
     else
     {
-        printf("delete all edge fo parent \n");
         // delete all edge fo parent
         deleteEdgeFromNode(oldNode);
     }
